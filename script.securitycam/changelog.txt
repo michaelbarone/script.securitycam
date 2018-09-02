@@ -1,3 +1,10 @@
+
+v1.0
+- Code reworked. Parts removed, e.g. animation, placeholder support
+- Authenticatin handling once again changed (still untested)
+- Now supports overlay of up to 4 camera image feeds simultaneously
+- Image updates are run as threads to increase performance  
+
 v0.0.9
 - Change image update method to prevent caching (should eliminate issue some users were seeing where image didn't update properly)
 - Eliminate dependency on urllib (now uses urllib2 exclusively)

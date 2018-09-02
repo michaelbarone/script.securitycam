@@ -2,19 +2,42 @@
 
   <strings>
 
-    <string id="32000">Camera</string>
-    <string id="32001">Image Url:</string>
+    <string id="32000">Cameras</string>
 
+    <string id="32001">Cam 1 - Image Url:</string>
     <string id="32002">Username:</string>
     <string id="32003">Password:</string>
+
+    <string id="32011">Cam 2 - Image Url:</string>
+    <string id="32012">Username:</string>
+    <string id="32013">Password:</string>
+
+    <string id="32021">Cam 3 - Image Url:</string>
+    <string id="32022">Username:</string>
+    <string id="32023">Password:</string>
+
+    <string id="32031">Cam 4 - Image Url:</string>
+    <string id="32032">Username:</string>
+    <string id="32033">Password:</string>
+
     <string id="33000">Behavior</string>
+
     <string id="33001">Window Width:</string>
     <string id="33002">Window Height:</string>
     <string id="33003">Refresh Interval (in milliseconds):</string>
 
-
     <string id="33004">Enable auto-close after duration:</string>
     <string id="33005">Duration (in seconds):</string>
+
+    <string id="33006">Alignment:</string>
+    <string id="33007">Padding (in Pixels):</string>
+
+    <string id="34000">Vertical right</string>
+    <string id="34001">Vertical left</string>
+    <string id="34002">Horizontal top</string>
+    <string id="34003">Horizontal bottom</string>
+    <string id="34004">Square right</string>
+    <string id="34005">Square left</string>
   </strings>
 
 
