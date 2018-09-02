@@ -87,7 +87,7 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         while(not _autoClose or (time.time() - startTime) * 1000 <= _duration):
             #snapshot = os.path.join(self.snapshotdir, 'snapshot' + str(time.time()) + '.jpg' )
             snapshot = os.path.join(self.snapshotdir, 'snapshot' + str(i) + '.jpg' )
-            i = i+1
+            i = (i+1)%10
 
             try:
                 imgData = urllib2.urlopen(request).read()
