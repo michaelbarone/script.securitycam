@@ -1,3 +1,7 @@
+v1.0.1
+- Reintroduced animation
+- Added more alignemnt patterns
+- Fixes
 
 v1.0
 - Code reworked. Parts removed, e.g. animation, placeholder support

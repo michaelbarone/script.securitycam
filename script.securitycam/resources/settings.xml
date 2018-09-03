@@ -23,7 +23,7 @@
         <setting label="33003" type="slider" id="interval" default="500" range="50,50,1000" option="int" />
 	<setting label="33004" type="bool" id="autoClose" default="true" />
         <setting label="33005" type="slider" id="duration" default="15" range="3,1,120" option="int" enable="eq(-1,true)" />
-        <setting label="33006" type="enum" id="alignment" default="0" option="int" lvalues="34000|34001|34002|33003|34004|34005" />
+        <setting label="33006" type="enum" id="alignment" default="0" option="int" lvalues="34000|34001|34002|34003|34004|34005|34006|34007|34008|34009" />
         <setting label="33007" type="number" id="padding" default="20" option="int" />
     </category>
 </settings>

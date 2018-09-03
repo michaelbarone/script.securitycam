@@ -32,12 +32,18 @@
     <string id="33006">Alignment:</string>
     <string id="33007">Padding (in Pixels):</string>
 
-    <string id="34000">Vertical right</string>
-    <string id="34001">Vertical left</string>
-    <string id="34002">Horizontal top</string>
-    <string id="34003">Horizontal bottom</string>
-    <string id="34004">Square right</string>
-    <string id="34005">Square left</string>
+    <string id="34000">Vertical: right, from top to bottom</string>
+    <string id="34001">Vertical: left, from top to bottom</string>
+    <string id="34002">Horizontal: top, from left to right</string>
+    <string id="34003">Horizontal: bottom, from left to right</string>
+    <string id="34004">Square: right top</string>
+    <string id="34005">Square: left top</string>
+    <string id="34006">Vertical: right, from bottom to top</string>
+    <string id="34007">Vertical: left, from bottom to top</string>
+    <string id="34008">Horizontal: top, from right to left</string>
+    <string id="34009">Horizontal: bottom, from right to left</string>
+    <string id="34010">Square: right bottom</string>
+    <string id="34011">Square: left bottom</string>
   </strings>
 
 

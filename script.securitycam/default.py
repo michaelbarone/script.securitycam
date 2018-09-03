@@ -73,6 +73,12 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                 self.cams[i]['control'] = xbmcgui.ControlImage(x, y, w, h, __loading__, aspectRatio = 1)
                 self.addControl(self.cams[i]['control'])
 
+                if _alignment in [0, 4, 6, 8, 9]:
+                   direction = 1
+                else:
+                   direction = -1
+                self.cams[i]['control'].setAnimations([('WindowOpen', 'effect=slide start=%d time=1000 tween=cubic easing=in'%(w*direction),), ('WindowClose', 'effect=slide end=%d time=1000 tween=cubic easing=in'%(w*direction),)])
+
     def coordinates(self, position):
         COORD_GRID_WIDTH = 1280
         COORD_GRID_HEIGHT = 720
@@ -80,24 +86,36 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         scaledWidth = int(float(COORD_GRID_WIDTH) / self.getWidth() * _width)
         scaledHeight = int(float(COORD_GRID_HEIGHT) / self.getHeight() * _height)
 
-        if _alignment == 0: # vertical right
+        if _alignment == 0: # vertical right, top to bottom
             scaledX = COORD_GRID_WIDTH - scaledWidth - _padding
-            scaledY = position * scaledHeight + (position+ 1) * _padding
-        if _alignment == 1: # vertical left
+            scaledY = position * scaledHeight + (position + 1) * _padding
+        if _alignment == 1: # vertical left, top to bottom
             scaledX = _padding
-            scaledY = position* scaledHeight + (position+ 1) * _padding
-        if _alignment == 2: # horizontal top
-            scaledX = position* scaledWidth + (position+ 1) * _padding
+            scaledY = position * scaledHeight + (position + 1) * _padding
+        if _alignment == 2: # horizontal top, left to right
+            scaledX = position * scaledWidth + (position + 1) * _padding
             scaledY = _padding
-        if _alignment == 3: # horizontal bottom
-            scaledX = position* scaledWidth + (position+ 1) * _padding
-            scaledY = COORD_GRID_HEIGHT - scaledWidth - _padding
+        if _alignment == 3: # horizontal bottom, left to right
+            scaledX = position * scaledWidth + (position + 1) * _padding
+            scaledY = COORD_GRID_HEIGHT - scaledHeight - _padding
         if _alignment == 4: # square right
             scaledX = COORD_GRID_WIDTH - (2 - position%2) * scaledWidth - (2 - position%2) * _padding
             scaledY = position%2 * scaledHeight + (position%2 + 1) * _padding
         if _alignment == 5: # square left
             scaledX = position%2 * scaledWidth + (position%2 + 1) * _padding
             scaledY = position%2 * scaledHeight + (position%2 + 1) * _padding
+        if _alignment == 6: # vertical right, bottom to top
+            scaledX = COORD_GRID_WIDTH - scaledWidth - _padding
+            scaledY = COORD_GRID_HEIGHT - (position + 1) * scaledHeight + (position + 1) * _padding
+        if _alignment == 7: # vertical left, bottom to top
+            scaledX = _padding
+            scaledY = COORD_GRID_HEIGHT - (position + 1) * scaledHeight + (position + 1) * _padding
+        if _alignment == 8: # horizontal top, right to left
+            scaledX = COORD_GRID_WIDTH - (position + 1) * scaledWidth - (position + 1) * _padding
+            scaledY = _padding
+        if _alignment == 9: # horizontal bottom, right to left
+            scaledX = COORD_GRID_WIDTH - (position + 1) * scaledWidth - (position + 1) * _padding
+            scaledY = COORD_GRID_HEIGHT - scaledHeight - _padding
 
         return scaledX, scaledY, scaledWidth, scaledHeight
 
