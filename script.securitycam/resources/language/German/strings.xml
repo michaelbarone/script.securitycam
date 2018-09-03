@@ -2,21 +2,23 @@
 
   <strings>
 
-    <string id="32000">Kameras</string>
-
-    <string id="32001">Kamera 1 - Url:</string>
+    <string id="32000">Kamera 1</string>
+    <string id="32001">Url:</string>
     <string id="32002">Benutzername:</string>
     <string id="32003">Passwort:</string>
 
-    <string id="32011">Kamera 2 - Url:</string>
+    <string id="32010">Kamera 2</string>
+    <string id="32011">Url:</string>
     <string id="32012">Benutzername:</string>
     <string id="32013">Passwort:</string>
 
-    <string id="32021">Kamera 3 - Url:</string>
+    <string id="32020">Kamera 3</string>
+    <string id="32021">Url:</string>
     <string id="32022">Benutzername:</string>
     <string id="32023">Passwort:</string>
 
-    <string id="32031">Kamera 4 - Url:</string>
+    <string id="32030">Kamera 4</string>
+    <string id="32031">Url:</string>
     <string id="32032">Benutzername:</string>
     <string id="32033">Passwort:</string>
 
@@ -25,12 +27,11 @@
     <string id="33001">Fensterbreite:</string>
     <string id="33002">Fensterhöhe:</string>
     <string id="33003">Aktualisierungsinterval (in msec):</string>
-
     <string id="33004">Automatisches Schließen:</string>
     <string id="33005">Anzeigedauer (in Sekunden):</string>
-
     <string id="33006">Ausrichtung:</string>
     <string id="33007">Zwischenraum (in Pixeln):</string>
+    <string id="33008">Beim Öffnen/Schließen animieren:</string>
 
     <string id="34000">Vertikal: rechts, von oben nach unten</string>
     <string id="34001">Vertikal: links, von oben nach unten</string>

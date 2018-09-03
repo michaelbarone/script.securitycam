@@ -46,6 +46,7 @@ _autoClose = bool(__addon__.getSetting('autoClose') == 'true')
 _duration  = int(float(__addon__.getSetting('duration')) * 1000)
 _alignment = int(float(__addon__.getSetting('alignment')))
 _padding   = int(float(__addon__.getSetting('padding')))
+_animate   = bool(__addon__.getSetting('animate') == 'true')
 
 # Utils
 def log(message,loglevel=xbmc.LOGNOTICE):
@@ -73,11 +74,12 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                 self.cams[i]['control'] = xbmcgui.ControlImage(x, y, w, h, __loading__, aspectRatio = 1)
                 self.addControl(self.cams[i]['control'])
 
-                if _alignment in [0, 4, 6, 8, 9]:
-                   direction = 1
-                else:
-                   direction = -1
-                self.cams[i]['control'].setAnimations([('WindowOpen', 'effect=slide start=%d time=1000 tween=cubic easing=in'%(w*direction),), ('WindowClose', 'effect=slide end=%d time=1000 tween=cubic easing=in'%(w*direction),)])
+                if _animate:
+                    if _alignment in [0, 4, 6, 8, 9]:
+                        direction = 1
+                    else:
+                        direction = -1
+                    self.cams[i]['control'].setAnimations([('WindowOpen', 'effect=slide start=%d time=1000 tween=cubic easing=in'%(w*direction),), ('WindowClose', 'effect=slide end=%d time=1000 tween=cubic easing=in'%(w*direction),)])
 
     def coordinates(self, position):
         COORD_GRID_WIDTH = 1280

@@ -1,3 +1,7 @@
+v1.0.2
+- Items in settings dialog rearranged
+- Extended description text
+
 v1.0.1
 - Reintroduced animation
 - Added more alignemnt patterns
