@@ -142,11 +142,12 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         self.cleanup()
 
     def update(self, cam):
-        request = urllib2.Request(cam['url'])
+        if cam['url'][:4] == 'http':
+            request = urllib2.Request(cam['url'])
 
-        if cam['username'] and cam['password']:
-            base64str = base64.b64encode('{}:{}'.format(cam['username'], cam['password']))
-            request.add_header('Authorization', 'Basic {}'.format(base64str))
+            if cam['username'] and cam['password']:
+                base64str = base64.b64encode('{}:{}'.format(cam['username'], cam['password']))
+                request.add_header('Authorization', 'Basic {}'.format(base64str))
 
         index=0
         while(self.isRunning):
@@ -154,10 +155,13 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
             index = (index + 1)%10
 
             try:
-                imgData = urllib2.urlopen(request).read()
-                file = xbmcvfs.File(snapshot, 'wb')
-                file.write(imgData)
-                file.close()
+                if cam['url'][:4] == 'http':
+                    imgData = urllib2.urlopen(request).read()
+                    file = xbmcvfs.File(snapshot, 'wb')
+                    file.write(imgData)
+                    file.close()
+                elif xbmcvfs.exists(cam['url']):
+                    xbmcvfs.copy(cam['url'], snapshot)
 
             except Exception, e:
                 log(str(e))
