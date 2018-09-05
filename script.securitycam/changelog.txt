@@ -1,3 +1,7 @@
+v1.0.3
+- Support copy file for non-http URLs
+- add setting to invidually activate configured cams
+
 v1.0.2
 - Items in settings dialog rearranged
 - Extended description text

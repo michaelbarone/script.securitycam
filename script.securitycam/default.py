@@ -30,14 +30,17 @@ __icon__         = os.path.join(__addon_path__, 'icon.png')
 __loading__      = os.path.join(__addon_path__, 'loading.gif')
 
 # Get settings
+active     = [None] * MAXCAMS
 urls       = [None] * MAXCAMS
 usernames  = [None] * MAXCAMS
 passwords  = [None] * MAXCAMS
 
 for i in range(MAXCAMS):
-    urls[i] =__addon__.getSetting('url{:d}'.format(i + 1))
-    usernames[i] =__addon__.getSetting('username{:d}'.format(i + 1))
-    passwords[i] =__addon__.getSetting('password{:d}'.format(i + 1))
+    active[i] = bool(__addon__.getSetting('active{:d}'.format(i + 1)) == 'true')
+    if active[i]:
+        urls[i] = __addon__.getSetting('url{:d}'.format(i + 1))
+        usernames[i] = __addon__.getSetting('username{:d}'.format(i + 1))
+        passwords[i] = __addon__.getSetting('password{:d}'.format(i + 1))
 
 _width     = int(float(__addon__.getSetting('width')))
 _height    = int(float(__addon__.getSetting('height')))

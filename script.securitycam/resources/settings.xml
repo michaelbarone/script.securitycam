@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
     <category label="32000">
+	<setting label="32004" type="bool" id="active1" default="true" enable="!eq(1,)"/>
         <setting label="32001" type="text" id="url1" default="" />
         <setting label="32002" type="text" id="username1" option="hidden" default="" enable="!eq(-1,)" />
         <setting label="32003" type="text" id="password1" option="hidden" default="" enable="!eq(-1,)" />
     </category>
     <category label="32010">
+	<setting label="32014" type="bool" id="active2" default="true" enable="!eq(1,)"/>
         <setting label="32011" type="text" id="url2" default="" />
         <setting label="32012" type="text" id="username2" option="hidden" default="" enable="!eq(-1,)" />
         <setting label="32013" type="text" id="password2" option="hidden" default="" enable="!eq(-1,)" />
     </category>
     <category label="32020">
+	<setting label="32024" type="bool" id="active3" default="true" enable="!eq(1,)"/>
         <setting label="32021" type="text" id="url3" default="" />
         <setting label="32022" type="text" id="username3" option="hidden" default="" enable="!eq(-1,)" />
         <setting label="32023" type="text" id="password3" option="hidden" default="" enable="!eq(-1,)" />
     </category>
     <category label="32030">
+	<setting label="32034" type="bool" id="active4" default="true" enable="!eq(1,)"/>
         <setting label="32031" type="text" id="url4" default="" />
         <setting label="32032" type="text" id="username4" option="hidden" default="" enable="!eq(-1,)" />
         <setting label="32033" type="text" id="password4" option="hidden" default="" enable="!eq(-1,)" />
