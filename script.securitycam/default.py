@@ -35,12 +35,14 @@ urls       = [None] * MAXCAMS
 usernames  = [None] * MAXCAMS
 passwords  = [None] * MAXCAMS
 
+count = 0
 for i in range(MAXCAMS):
     active[i] = bool(__addon__.getSetting('active{:d}'.format(i + 1)) == 'true')
     if active[i]:
-        urls[i] = __addon__.getSetting('url{:d}'.format(i + 1))
-        usernames[i] = __addon__.getSetting('username{:d}'.format(i + 1))
-        passwords[i] = __addon__.getSetting('password{:d}'.format(i + 1))
+        urls[count] = __addon__.getSetting('url{:d}'.format(i + 1))
+        usernames[count] = __addon__.getSetting('username{:d}'.format(i + 1))
+        passwords[count] = __addon__.getSetting('password{:d}'.format(i + 1))
+        count += 1
 
 _width     = int(float(__addon__.getSetting('width')))
 _height    = int(float(__addon__.getSetting('height')))
@@ -91,36 +93,39 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         scaledWidth = int(float(COORD_GRID_WIDTH) / self.getWidth() * _width)
         scaledHeight = int(float(COORD_GRID_HEIGHT) / self.getHeight() * _height)
 
+        scaledPaddingX = int(float(COORD_GRID_WIDTH) / self.getWidth() * _padding)
+        scaledPaddingY = int(float(COORD_GRID_HEIGHT) / self.getHeight() * _padding)
+
         if _alignment == 0: # vertical right, top to bottom
-            scaledX = COORD_GRID_WIDTH - scaledWidth - _padding
-            scaledY = position * scaledHeight + (position + 1) * _padding
+            scaledX = COORD_GRID_WIDTH - scaledWidth - scaledPaddingX
+            scaledY = position * scaledHeight + (position + 1) * scaledPaddingY
         if _alignment == 1: # vertical left, top to bottom
-            scaledX = _padding
-            scaledY = position * scaledHeight + (position + 1) * _padding
+            scaledX = scaledPaddingX
+            scaledY = position * scaledHeight + (position + 1) * scaledPaddingY
         if _alignment == 2: # horizontal top, left to right
-            scaledX = position * scaledWidth + (position + 1) * _padding
-            scaledY = _padding
+            scaledX = position * scaledWidth + (position + 1) * scaledPaddingX
+            scaledY = scaledPaddingY
         if _alignment == 3: # horizontal bottom, left to right
-            scaledX = position * scaledWidth + (position + 1) * _padding
-            scaledY = COORD_GRID_HEIGHT - scaledHeight - _padding
+            scaledX = position * scaledWidth + (position + 1) * scaledPaddingX
+            scaledY = COORD_GRID_HEIGHT - scaledHeight - scaledPaddingY
         if _alignment == 4: # square right
-            scaledX = COORD_GRID_WIDTH - (2 - position%2) * scaledWidth - (2 - position%2) * _padding
-            scaledY = position%2 * scaledHeight + (position%2 + 1) * _padding
+            scaledX = COORD_GRID_WIDTH - (2 - position%2) * scaledWidth - (2 - position%2) * scaledPaddingX
+            scaledY = position%2 * scaledHeight + (position%2 + 1) * scaledPaddingY
         if _alignment == 5: # square left
-            scaledX = position%2 * scaledWidth + (position%2 + 1) * _padding
-            scaledY = position%2 * scaledHeight + (position%2 + 1) * _padding
+            scaledX = position%2 * scaledWidth + (position%2 + 1) * scaledPaddingX
+            scaledY = position%2 * scaledHeight + (position%2 + 1) * scaledPaddingY
         if _alignment == 6: # vertical right, bottom to top
-            scaledX = COORD_GRID_WIDTH - scaledWidth - _padding
-            scaledY = COORD_GRID_HEIGHT - (position + 1) * scaledHeight + (position + 1) * _padding
+            scaledX = COORD_GRID_WIDTH - scaledWidth - scaledPaddingX
+            scaledY = COORD_GRID_HEIGHT - (position + 1) * scaledHeight + (position + 1) * scaledPaddingY
         if _alignment == 7: # vertical left, bottom to top
-            scaledX = _padding
-            scaledY = COORD_GRID_HEIGHT - (position + 1) * scaledHeight + (position + 1) * _padding
+            scaledX = scaledPaddingX
+            scaledY = COORD_GRID_HEIGHT - (position + 1) * scaledHeight + (position + 1) * scaledPaddingY
         if _alignment == 8: # horizontal top, right to left
-            scaledX = COORD_GRID_WIDTH - (position + 1) * scaledWidth - (position + 1) * _padding
-            scaledY = _padding
+            scaledX = COORD_GRID_WIDTH - (position + 1) * scaledWidth - (position + 1) * scaledPaddingX
+            scaledY = scaledPaddingY
         if _alignment == 9: # horizontal bottom, right to left
-            scaledX = COORD_GRID_WIDTH - (position + 1) * scaledWidth - (position + 1) * _padding
-            scaledY = COORD_GRID_HEIGHT - scaledHeight - _padding
+            scaledX = COORD_GRID_WIDTH - (position + 1) * scaledWidth - (position + 1) * scaledPaddingX
+            scaledY = COORD_GRID_HEIGHT - scaledHeight - scaledPaddingY
 
         return scaledX, scaledY, scaledWidth, scaledHeight
 
