@@ -1,4 +1,4 @@
-# XbmcSecurityCamOverlayAddOn
+# script.securitycam
 
 This a rework of the kodi 'Security Cam Overlay' addon originally developed by Ryan Melena Noesis.
 
