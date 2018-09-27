@@ -10,4 +10,4 @@ The addon feeds each require a source providing snapshots in jpeg format. This c
 
 If you want the addon execution triggered by email (this is how I get notified exclusively of a motion detected by my cam), you may also want to look at my other project 'Kodi-Email-Alert'.
 
-Alternatively, with a PIR motion detection device sending on 433 Mhz and 433 Mhz receiver module in a raspberry pi you can kick-off the addon almost instantly on any motion detected. Have look at my project 'Kodi-RF-Alert' if you're interested.
+Alternatively, with a PIR motion detection device sending on 433 Mhz and 433 Mhz receiver module in a raspberry pi you can kick-off the addon almost instantly on motion detected. Have a look at my project 'Kodi-RF-Alert' if you're interested.
