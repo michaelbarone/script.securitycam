@@ -151,11 +151,13 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
 
     def update(self, cam):
         if cam['url'][:4] == 'http':
-            request = urllib2.Request(cam['url'])
-
             if cam['username'] and cam['password']:
-                base64str = base64.b64encode('{}:{}'.format(cam['username'], cam['password']))
-                request.add_header('Authorization', 'Basic {}'.format(base64str))
+                p = urllib2.HTTPPasswordMgrWithDefaultRealm()
+                p.add_password(None, cam['url'], cam['username'], cam['password'])
+                opener = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(p), urllib2.HTTPDigestAuthHandler(p))
+                urllib2.install_opener(opener)
+
+            request = urllib2.Request(cam['url'])
 
         index=0
         while(self.isRunning):
