@@ -62,6 +62,9 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
     def __init__(self, urls, usernames, passwords):
         self.cams = [{'url':None, 'username':None, 'password':None, 'tmpdir':None, 'control':None} for i in range(MAXCAMS)]
 
+        passwd_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+        self.opener = urllib2.build_opener()
+
         for i in range(MAXCAMS):
             if urls[i]:
                 self.cams[i]['url'] = urls[i]
@@ -69,6 +72,10 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                 if usernames[i] and passwords[i]:
                     self.cams[i]['username'] = usernames[i]
                     self.cams[i]['password'] = passwords[i]
+
+                    passwd_mgr.add_password(None, self.cams[i]['url'], self.cams[i]['username'], self.cams[i]['password'])
+                    self.opener.add_handler(urllib2.HTTPBasicAuthHandler(passwd_mgr))
+                    self.opener.add_handler(urllib2.HTTPDigestAuthHandler(passwd_mgr))
 
                 randomname = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
                 self.cams[i]['tmpdir'] = os.path.join(__profile__, randomname)
@@ -150,23 +157,18 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         self.cleanup()
 
     def update(self, cam):
-        if cam['url'][:4] == 'http':
-            if cam['username'] and cam['password']:
-                p = urllib2.HTTPPasswordMgrWithDefaultRealm()
-                p.add_password(None, cam['url'], cam['username'], cam['password'])
-                opener = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(p), urllib2.HTTPDigestAuthHandler(p))
-                urllib2.install_opener(opener)
+        request = urllib2.Request(cam['url'])
+        index = 0
 
-            request = urllib2.Request(cam['url'])
-
-        index=0
         while(self.isRunning):
             snapshot = os.path.join(cam['tmpdir'], 'snapshot' + str(index) + '.jpg' )
             index = (index + 1)%10
 
             try:
                 if cam['url'][:4] == 'http':
-                    imgData = urllib2.urlopen(request).read()
+                    #imgData = urllib2.urlopen(request).read()
+                    imgData = self.opener.open(request).read()
+
                     file = xbmcvfs.File(snapshot, 'wb')
                     file.write(imgData)
                     file.close()

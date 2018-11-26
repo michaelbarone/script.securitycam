@@ -1,3 +1,6 @@
+v1.2.1
+- Another fix for URLs which require authentication
+
 v1.2
 - Fixed authentication handling
 
