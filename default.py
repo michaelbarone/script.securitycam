@@ -177,9 +177,10 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
 
             except Exception, e:
                 log(str(e))
-                snapshot = __loading__
+                #snapshot = __loading__
+                snapshot = None
 
-            if xbmcvfs.exists(snapshot):
+            if snapshot is not None and xbmcvfs.exists(snapshot):
                 cam['control'].setImage(snapshot, False)
 
             xbmc.sleep(_interval)
