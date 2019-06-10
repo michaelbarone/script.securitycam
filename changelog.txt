@@ -1,3 +1,6 @@
+v1.3.0
+- Setting of streamid parameter in jsonrpc call allows selection of camera stream to be displayed by index
+ 
 v1.2.2
 - Keep last pic if update fails
 

@@ -11,7 +11,7 @@
 #
 
 # Import the modules
-import os, time, urllib2, xbmc, xbmcaddon, xbmcgui, xbmcvfs, random, string
+import os, time, urllib2, xbmc, xbmcaddon, xbmcgui, xbmcvfs, random, string, sys
 from threading import Thread
 
 # Constants
@@ -30,19 +30,38 @@ __icon__         = os.path.join(__addon_path__, 'icon.png')
 __loading__      = os.path.join(__addon_path__, 'loading.gif')
 
 # Get settings
-active     = [None] * MAXCAMS
+active     = [False] * MAXCAMS
+
 urls       = [None] * MAXCAMS
 usernames  = [None] * MAXCAMS
 passwords  = [None] * MAXCAMS
 
-count = 0
-for i in range(MAXCAMS):
-    active[i] = bool(__addon__.getSetting('active{:d}'.format(i + 1)) == 'true')
-    if active[i]:
-        urls[count] = __addon__.getSetting('url{:d}'.format(i + 1))
-        usernames[count] = __addon__.getSetting('username{:d}'.format(i + 1))
-        passwords[count] = __addon__.getSetting('password{:d}'.format(i + 1))
-        count += 1
+streamid   = 0
+
+if len(sys.argv) > 1:
+    for i in range (1, len(sys.argv)):
+        try:
+            if sys.argv[i].split('=')[0] == 'streamid':
+                streamid = int(sys.argv[i].split('=')[1])
+                # break here, or keep on searching for other arguments
+                break
+        except:
+            continue
+
+if streamid in range(1, MAXCAMS + 1) and __addon__.getSetting('url{:d}'.format(streamid)):
+    active[0] = True
+    urls[0] = __addon__.getSetting('url{:d}'.format(streamid))
+    usernames[0] = __addon__.getSetting('username{:d}'.format(streamid))
+    passwords[0] = __addon__.getSetting('password{:d}'.format(streamid))
+else:
+    count = 0
+    for i in range(MAXCAMS):
+        active[i] = bool(__addon__.getSetting('active{:d}'.format(i + 1)) == 'true')
+        if active[i]:
+            urls[count] = __addon__.getSetting('url{:d}'.format(i + 1))
+            usernames[count] = __addon__.getSetting('username{:d}'.format(i + 1))
+            passwords[count] = __addon__.getSetting('password{:d}'.format(i + 1))
+            count += 1
 
 _width     = int(float(__addon__.getSetting('width')))
 _height    = int(float(__addon__.getSetting('height')))
@@ -202,6 +221,9 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
 
 
 if __name__ == '__main__':
+    if streamid > 0:
+        log('Addon called with streamid={}'.format(streamid))
+
     camPreview = CamPreviewDialog(urls, usernames, passwords)
     camPreview.start()
 
