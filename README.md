@@ -12,4 +12,4 @@ If you want the addon execution triggered by email (this is how I get notified e
 
 Alternatively, with a PIR motion detection device sending on 433 Mhz and 433 Mhz receiver module in a raspberry pi you can kick-off the addon almost instantly on motion detected. Have a look at my project 'Kodi-RF-Alert' if you're interested.
 
-Since release 1.3 of the addon the addon can be called with an optional argument 'streamid' set to the index (=1,..,4) of the cam feed as configured in the addon settings. When, for example, a kodi json-rpc call for method='Addons.ExecuteAddon' is used to trigger the addon, the cam feed to be displayed can be set with params={'addonid' :'script.securitycam', 'params': {'streamid': str(index)}}. 
+Since release 1.3.0 the addon can be called with an optional argument 'streamid' set to the index (=1,..,4) of the cam feed as configured in the addon settings. When, for example, a kodi json-rpc call for method='Addons.ExecuteAddon' is used to trigger the addon, the cam feed to be displayed can be set with params={'addonid' :'script.securitycam', 'params': {'streamid': str(index)}}. 
