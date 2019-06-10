@@ -49,7 +49,6 @@ if len(sys.argv) > 1:
             continue
 
 if streamid in range(1, MAXCAMS + 1) and __addon__.getSetting('url{:d}'.format(streamid)):
-    active[0] = True
     urls[0] = __addon__.getSetting('url{:d}'.format(streamid))
     usernames[0] = __addon__.getSetting('username{:d}'.format(streamid))
     passwords[0] = __addon__.getSetting('password{:d}'.format(streamid))
