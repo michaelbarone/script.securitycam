@@ -38,6 +38,7 @@
     <string id="33006">Alignment:</string>
     <string id="33007">Padding (in Pixels):</string>
     <string id="33008">Animate on open/close:</string>
+    <string id="33009">Aspect Ratio:</string>
 
     <string id="34000">Vertical: right, from top to bottom</string>
     <string id="34001">Vertical: left, from top to bottom</string>
@@ -51,6 +52,8 @@
     <string id="34009">Horizontal: bottom, from right to left</string>
     <string id="34010">Square: right bottom</string>
     <string id="34011">Square: left bottom</string>
+
+    <string id="34020">Stretch</string>
+    <string id="34021">Scale up (crops)</string>
+    <string id="34022">Scale down (black bars)</string>
   </strings>
-
-

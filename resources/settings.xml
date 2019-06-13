@@ -33,5 +33,6 @@
         <setting label="33006" type="enum" id="alignment" default="0" option="int" lvalues="34000|34001|34002|34003|34004|34005|34006|34007|34008|34009" />
         <setting label="33007" type="number" id="padding" default="20" option="int" />
         <setting label="33008" type="bool" id="animate" default="true" />
+        <setting label="33009" type="enum" id="aspectRatio" default="1" option="int" lvalues="34020|34021|34022" />
     </category>
 </settings>

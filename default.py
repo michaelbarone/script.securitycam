@@ -26,8 +26,8 @@ __addon__        = xbmcaddon.Addon()
 __addon_id__     = __addon__.getAddonInfo('id')
 __addon_path__   = __addon__.getAddonInfo('path')
 __profile__      = __addon__.getAddonInfo('profile')
-__icon__         = os.path.join(__addon_path__, 'icon.png')
-__loading__      = os.path.join(__addon_path__, 'loading.gif')
+__icon__         = os.path.join(xbmc.translatePath(__addon_path__), 'icon.png')
+__loading__      = os.path.join(xbmc.translatePath(__addon_path__), 'loading.gif')
 
 # Get settings
 active     = [False] * MAXCAMS
@@ -62,14 +62,15 @@ else:
             passwords[count] = __addon__.getSetting('password{:d}'.format(i + 1))
             count += 1
 
-_width     = int(float(__addon__.getSetting('width')))
-_height    = int(float(__addon__.getSetting('height')))
-_interval  = int(float(__addon__.getSetting('interval')))
-_autoClose = bool(__addon__.getSetting('autoClose') == 'true')
-_duration  = int(float(__addon__.getSetting('duration')) * 1000)
-_alignment = int(float(__addon__.getSetting('alignment')))
-_padding   = int(float(__addon__.getSetting('padding')))
-_animate   = bool(__addon__.getSetting('animate') == 'true')
+_width       = int(float(__addon__.getSetting('width')))
+_height      = int(float(__addon__.getSetting('height')))
+_interval    = int(float(__addon__.getSetting('interval')))
+_autoClose   = bool(__addon__.getSetting('autoClose') == 'true')
+_duration    = int(float(__addon__.getSetting('duration')) * 1000)
+_alignment   = int(float(__addon__.getSetting('alignment')))
+_padding     = int(float(__addon__.getSetting('padding')))
+_animate     = bool(__addon__.getSetting('animate') == 'true')
+_aspectRatio = int(float(__addon__.getSetting('aspectRatio')))
 
 # Utils
 def log(message,loglevel=xbmc.LOGNOTICE):
@@ -96,12 +97,12 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                     self.opener.add_handler(urllib2.HTTPDigestAuthHandler(passwd_mgr))
 
                 randomname = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
-                self.cams[i]['tmpdir'] = os.path.join(__profile__, randomname)
+                self.cams[i]['tmpdir'] = os.path.join(xbmc.translatePath(__profile__), randomname)
                 if not xbmcvfs.exists(self.cams[i]['tmpdir']):
                     xbmcvfs.mkdir(self.cams[i]['tmpdir'])
 
                 x, y, w, h = self.coordinates(i)
-                self.cams[i]['control'] = xbmcgui.ControlImage(x, y, w, h, __loading__, aspectRatio = 1)
+                self.cams[i]['control'] = xbmcgui.ControlImage(x, y, w, h, __loading__, aspectRatio = _aspectRatio)
                 self.addControl(self.cams[i]['control'])
 
                 if _animate:

@@ -1,3 +1,6 @@
+v1.3.5
+- Handling of feeds with different Aspect Ratio is now a configurable option
+
 v1.3.0
 - Setting of streamid parameter in jsonrpc call allows selection of camera stream to be displayed by index
  

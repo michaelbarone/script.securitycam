@@ -35,6 +35,7 @@
     <string id="33006">Ausrichtung:</string>
     <string id="33007">Zwischenraum (in Pixeln):</string>
     <string id="33008">Animation beim Öffnen/Schließen:</string>
+    <string id="33009">Bildformat-Anpassung:</string>
 
     <string id="34000">Vertikal: rechts, von oben nach unten</string>
     <string id="34001">Vertikal: links, von oben nach unten</string>
@@ -48,6 +49,8 @@
     <string id="34009">Horizontal: unten, von rechts nach links</string>
     <string id="34010">Quadrat: rechts unten</string>
     <string id="34011">Quadrat: links unten</string>
+
+    <string id="34020">Strecken</string>
+    <string id="34021">Vergrößern (Abschneiden)</string>
+    <string id="34022">Verkleinern (Schw. Balken)</string>
   </strings>
-
-
