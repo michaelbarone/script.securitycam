@@ -8,7 +8,7 @@
 # JSONRPC Call to trigger this script:
 #
 # curl -s -u <user>:<password> -H "Content-Type: application/json" -X POST -d '{"jsonrpc":"2.0","method":"Addons.ExecuteAddon","params":{"addonid":"script.securitycam","params":{"streamid":"<idx>"}},"id":1}' http://<ip>:<port>/jsonrpc
-# with "params":{"streamid":"<idx>"} as an optional paramter specifying a destinctive feed with index <idx> to be played.
+# with "params":{"streamid":"<idx>"} as an optional parameter specifying an individual feed with index <idx> to be played.
 #
 
 # Import the modules
