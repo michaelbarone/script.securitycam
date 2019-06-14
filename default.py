@@ -7,7 +7,8 @@
 #
 # JSONRPC Call to trigger this script:
 #
-# curl -s -u <user>:<password> -H "Content-Type: application/json" -X POST -d '{"jsonrpc":"2.0","method":"Addons.ExecuteAddon","params":{"addonid":"script.securitycam"},"id":1}' http://<ip>:<port>/jsonrpc
+# curl -s -u <user>:<password> -H "Content-Type: application/json" -X POST -d '{"jsonrpc":"2.0","method":"Addons.ExecuteAddon","params":{"addonid":"script.securitycam","params":{"streamid":"<idx>"}},"id":1}' http://<ip>:<port>/jsonrpc
+# with "params":{"streamid":"<idx>"} as an optional paramter specifying a destinctive feed with index <idx> to be played.
 #
 
 # Import the modules
@@ -26,8 +27,8 @@ __addon__        = xbmcaddon.Addon()
 __addon_id__     = __addon__.getAddonInfo('id')
 __addon_path__   = __addon__.getAddonInfo('path')
 __profile__      = __addon__.getAddonInfo('profile')
-__icon__         = os.path.join(xbmc.translatePath(__addon_path__), 'icon.png')
-__loading__      = os.path.join(xbmc.translatePath(__addon_path__), 'loading.gif')
+__icon__         = os.path.join(__addon_path__, 'icon.png')
+__loading__      = os.path.join(__addon_path__, 'loading.gif')
 
 # Get settings
 active     = [False] * MAXCAMS
@@ -97,7 +98,7 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                     self.opener.add_handler(urllib2.HTTPDigestAuthHandler(passwd_mgr))
 
                 randomname = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
-                self.cams[i]['tmpdir'] = os.path.join(xbmc.translatePath(__profile__), randomname)
+                self.cams[i]['tmpdir'] = os.path.join(__profile__, randomname)
                 if not xbmcvfs.exists(self.cams[i]['tmpdir']):
                     xbmcvfs.mkdir(self.cams[i]['tmpdir'])
 
@@ -185,7 +186,6 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
 
             try:
                 if cam['url'][:4] == 'http':
-                    #imgData = urllib2.urlopen(request).read()
                     imgData = self.opener.open(request).read()
 
                     file = xbmcvfs.File(snapshot, 'wb')
@@ -199,7 +199,7 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                 #snapshot = __loading__
                 snapshot = None
 
-            if snapshot is not None and xbmcvfs.exists(snapshot):
+            if snapshot and xbmcvfs.exists(snapshot):
                 cam['control'].setImage(snapshot, False)
 
             xbmc.sleep(_interval)
