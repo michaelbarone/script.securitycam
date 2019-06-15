@@ -137,10 +137,10 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
             scaledY = COORD_GRID_HEIGHT - scaledHeight - scaledPaddingY
         if _alignment == 4: # square right
             scaledX = COORD_GRID_WIDTH - (2 - position%2) * scaledWidth - (2 - position%2) * scaledPaddingX
-            scaledY = position%2 * scaledHeight + (position%2 + 1) * scaledPaddingY
+            scaledY = position/2 * scaledHeight + (position/2 + 1) * scaledPaddingY
         if _alignment == 5: # square left
             scaledX = position%2 * scaledWidth + (position%2 + 1) * scaledPaddingX
-            scaledY = position%2 * scaledHeight + (position%2 + 1) * scaledPaddingY
+            scaledY = position/2 * scaledHeight + (position/2 + 1) * scaledPaddingY
         if _alignment == 6: # vertical right, bottom to top
             scaledX = COORD_GRID_WIDTH - scaledWidth - scaledPaddingX
             scaledY = COORD_GRID_HEIGHT - (position + 1) * scaledHeight + (position + 1) * scaledPaddingY
