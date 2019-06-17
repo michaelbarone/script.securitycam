@@ -182,7 +182,7 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
 
         while(self.isRunning):
             snapshot = os.path.join(cam['tmpdir'], 'snapshot' + str(index) + '.jpg' )
-            index = (index + 1)%10
+            index += 1
 
             try:
                 if cam['url'][:4] == 'http':
