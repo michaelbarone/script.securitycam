@@ -7,12 +7,14 @@
 #
 # JSONRPC Call to trigger this script:
 #
-# curl -s -u <user>:<password> -H "Content-Type: application/json" -X POST -d '{"jsonrpc":"2.0","method":"Addons.ExecuteAddon","params":{"addonid":"script.securitycam","params":{"streamid":"<idx>"}},"id":1}' http://<ip>:<port>/jsonrpc
-# with "params":{"streamid":"<idx>"} as an optional parameter specifying an individual feed with index <idx> to be played.
+# curl -s -u <user>:<password> -H "Content-Type: application/json" -X POST -d '{"jsonrpc":"2.0","method":"Addons.ExecuteAddon","params":{"addonid":"script.securitycam"},"id":1}' http://<ip>:<port>/jsonrpc
 #
 
 # Import the modules
-import os, time, urllib2, xbmc, xbmcaddon, xbmcgui, xbmcvfs, random, string, sys
+import os, time, random, string, sys, platform
+import xbmc, xbmcaddon, xbmcgui, xbmcvfs
+import urllib2, requests, subprocess
+from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 from threading import Thread
 
 # Constants
@@ -38,6 +40,8 @@ usernames  = [None] * MAXCAMS
 passwords  = [None] * MAXCAMS
 
 streamid   = 0
+
+ffmpeg_exec = 'ffmpeg.exe' if platform.system() == 'Windows' else 'ffmpeg'
 
 if len(sys.argv) > 1:
     for i in range (1, len(sys.argv)):
@@ -76,6 +80,36 @@ _aspectRatio = int(float(__addon__.getSetting('aspectRatio')))
 # Utils
 def log(message,loglevel=xbmc.LOGNOTICE):
     xbmc.log(msg='[{}] {}'.format(__addon_id__, message), level=loglevel)
+
+def which(pgm):
+    for path in os.getenv('PATH').split(os.path.pathsep):
+        p=os.path.join(path, pgm)
+        if os.path.exists(p) and os.access(p, os.X_OK):
+            return p
+
+    return None
+
+# Auth Scheme Mapping for Requets
+AUTH_MAP = {
+    'basic': HTTPBasicAuth,
+    'digest': HTTPDigestAuth,
+}
+
+def auth_get(url, *args, **kwargs):
+    r = requests.get(url, **kwargs)
+
+    if r.status_code != 401:
+        return r
+
+    auth_scheme = r.headers['WWW-Authenticate'].split(' ')[0]
+    auth = AUTH_MAP.get(auth_scheme.lower())
+
+    if not auth:
+        raise ValueError('Unknown authentication scheme')
+
+    r = requests.get(url, auth=auth(*args), **kwargs)
+
+    return r
 
 # Classes
 class CamPreviewDialog(xbmcgui.WindowDialog):
@@ -178,19 +212,53 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
 
     def update(self, cam):
         request = urllib2.Request(cam['url'])
-        index = 0
+        index = 1
+
+        if cam['url'][:4] == 'rtsp' and which(ffmpeg_exec):
+            if cam['username'] and cam['password']:
+                input = 'rtsp://{}:{}@{}'.format(cam['username'], cam['password'], cam['url'][7:])
+            else:
+                input = cam['url']
+
+            output = os.path.join(cam['tmpdir'], 'snapshot_%06d.jpg')
+            command = [ffmpeg_exec,
+                      '-nostdin',
+                      '-rtsp_transport', 'tcp',
+                      '-i', input,
+                      '-an',
+                      '-f', 'image2',
+                      '-vf', 'fps=fps='+str(int(1000.0/_interval)),
+                      '-q:v', '10',
+                      '-s', str(_width)+'x'+str(_height),
+                      '-vcodec', 'mjpeg',
+                      xbmc.translatePath(output)]
+            p = subprocess.Popen(command)
+        elif cam['url'][:4] == 'rtsp':
+            log('Error: {} not installed. Can\'t process rtsp input format.'.format(ffmpeg_exec))
+            #self.isRunning = False
+            self.stop()
+            return
 
         while(self.isRunning):
-            snapshot = os.path.join(cam['tmpdir'], 'snapshot' + str(index) + '.jpg' )
+            snapshot = os.path.join(cam['tmpdir'], 'snapshot_{:06d}.jpg'.format(index))
             index += 1
 
             try:
                 if cam['url'][:4] == 'http':
                     imgData = self.opener.open(request).read()
 
-                    file = xbmcvfs.File(snapshot, 'wb')
-                    file.write(imgData)
-                    file.close()
+                    #r = auth_get(cam['url'], cam['username'], cam['password'], verify=False, stream=True)
+                    #if r.status_code == 200: # success!
+                    #    imgData = r.content
+
+                    if imgData:
+                        file = xbmcvfs.File(snapshot, 'wb')
+                        file.write(imgData)
+                        file.close()
+                elif cam['url'][:4] == 'rtsp' and which(ffmpeg_exec):
+                    while(self.isRunning):
+                       if xbmcvfs.exists(snapshot):
+                           break
                 elif xbmcvfs.exists(cam['url']):
                     xbmcvfs.copy(cam['url'], snapshot)
 
@@ -199,10 +267,15 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                 #snapshot = __loading__
                 snapshot = None
 
-            if snapshot and xbmcvfs.exists(snapshot):
+            #if snapshot and xbmcvfs.exists(snapshot):
+            if snapshot:
                 cam['control'].setImage(snapshot, False)
 
-            xbmc.sleep(_interval)
+            if cam['url'][:4] != 'rtsp' and which(ffmpeg_exec):
+                xbmc.sleep(_interval)
+
+        if cam['url'][:4] == 'rtsp' and p.pid:
+            p.terminate()
 
     def cleanup(self):
         for i in range(MAXCAMS):

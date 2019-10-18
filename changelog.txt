@@ -1,3 +1,6 @@
+v1.4.0
+- Added capability to capture snapshots from rtsp stream (requires ffmpeg)
+
 v1.3.5
 - Handling of feeds with different Aspect Ratio is now a configurable option
 
