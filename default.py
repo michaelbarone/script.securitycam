@@ -214,7 +214,13 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         request = urllib2.Request(cam['url'])
         index = 1
 
-        if cam['url'][:4] == 'rtsp' and which(ffmpeg_exec):
+        if cam['url'][:4] == 'rtsp' and not which(ffmpeg_exec):
+            log('Error: {} not installed. Can\'t process rtsp input format.'.format(ffmpeg_exec))
+            #self.isRunning = False
+            self.stop()
+            return
+
+        if cam['url'][:4] == 'rtsp':
             if cam['username'] and cam['password']:
                 input = 'rtsp://{}:{}@{}'.format(cam['username'], cam['password'], cam['url'][7:])
             else:
@@ -233,11 +239,6 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                       '-vcodec', 'mjpeg',
                       xbmc.translatePath(output)]
             p = subprocess.Popen(command)
-        elif cam['url'][:4] == 'rtsp':
-            log('Error: {} not installed. Can\'t process rtsp input format.'.format(ffmpeg_exec))
-            #self.isRunning = False
-            self.stop()
-            return
 
         while(self.isRunning):
             snapshot = os.path.join(cam['tmpdir'], 'snapshot_{:06d}.jpg'.format(index))
@@ -255,10 +256,12 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                         file = xbmcvfs.File(snapshot, 'wb')
                         file.write(imgData)
                         file.close()
-                elif cam['url'][:4] == 'rtsp' and which(ffmpeg_exec):
+
+                elif cam['url'][:4] == 'rtsp':
                     while(self.isRunning):
                        if xbmcvfs.exists(snapshot):
                            break
+
                 elif xbmcvfs.exists(cam['url']):
                     xbmcvfs.copy(cam['url'], snapshot)
 
