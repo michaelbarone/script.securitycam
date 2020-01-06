@@ -13,9 +13,14 @@
 # Import the modules
 import os, time, random, string, sys, platform
 import xbmc, xbmcaddon, xbmcgui, xbmcvfs
-import urllib2, requests, subprocess
+import requests, subprocess
 from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 from threading import Thread
+
+try:
+    from urllib.request import build_opener, HTTPPasswordMgrWithDefaultRealmc, HTTPBasicAuthHandler, HTTPDigestAuthHandler, Request
+except ImportError:
+    from urllib2 import build_opener, HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler, HTTPDigestAuthHandler, Request
 
 # Constants
 ACTION_PREVIOUS_MENU = 10
@@ -116,8 +121,8 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
     def __init__(self, urls, usernames, passwords):
         self.cams = [{'url':None, 'username':None, 'password':None, 'tmpdir':None, 'control':None} for i in range(MAXCAMS)]
 
-        passwd_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-        self.opener = urllib2.build_opener()
+        passwd_mgr = HTTPPasswordMgrWithDefaultRealm()
+        self.opener = build_opener()
 
         for i in range(MAXCAMS):
             if urls[i]:
@@ -128,10 +133,10 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                     self.cams[i]['password'] = passwords[i]
 
                     passwd_mgr.add_password(None, self.cams[i]['url'], self.cams[i]['username'], self.cams[i]['password'])
-                    self.opener.add_handler(urllib2.HTTPBasicAuthHandler(passwd_mgr))
-                    self.opener.add_handler(urllib2.HTTPDigestAuthHandler(passwd_mgr))
+                    self.opener.add_handler(HTTPBasicAuthHandler(passwd_mgr))
+                    self.opener.add_handler(HTTPDigestAuthHandler(passwd_mgr))
 
-                randomname = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+                randomname = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)])
                 self.cams[i]['tmpdir'] = os.path.join(__profile__, randomname)
                 if not xbmcvfs.exists(self.cams[i]['tmpdir']):
                     xbmcvfs.mkdir(self.cams[i]['tmpdir'])
@@ -211,7 +216,7 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         self.cleanup()
 
     def update(self, cam):
-        request = urllib2.Request(cam['url'])
+        request = Request(cam['url'])
         index = 1
 
         if cam['url'][:4] == 'rtsp' and not which(ffmpeg_exec):
@@ -265,7 +270,7 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
                 elif xbmcvfs.exists(cam['url']):
                     xbmcvfs.copy(cam['url'], snapshot)
 
-            except Exception, e:
+            except Exception as e:
                 log(str(e))
                 #snapshot = __loading__
                 snapshot = None

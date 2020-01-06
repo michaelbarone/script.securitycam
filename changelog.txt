@@ -1,3 +1,6 @@
+v1.4.1
+- First attempt to make the code run under python 2 and python 3.
+
 v1.4.0
 - Added capability to capture snapshots from rtsp stream (requires ffmpeg)
 
