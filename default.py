@@ -18,7 +18,7 @@ from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 from threading import Thread
 
 try:
-    from urllib.request import build_opener, HTTPPasswordMgrWithDefaultRealmc, HTTPBasicAuthHandler, HTTPDigestAuthHandler, Request
+    from urllib.request import build_opener, HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler, HTTPDigestAuthHandler, Request
 except ImportError:
     from urllib2 import build_opener, HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler, HTTPDigestAuthHandler, Request
 
