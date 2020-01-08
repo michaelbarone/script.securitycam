@@ -259,7 +259,7 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
 
                     if imgData:
                         file = xbmcvfs.File(snapshot, 'wb')
-                        file.write(imgData)
+                        file.write(bytearray(imgData))
                         file.close()
 
                 elif cam['url'][:4] == 'rtsp':
