@@ -5,6 +5,7 @@
        provider-name="Ryan Melena, Paulemann">
   <requires>
     <import addon="xbmc.python" version="2.14.0"/>
+    <import addon="script.module.requests" version="2.22.0"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py">
     <provides>executable</provides>
