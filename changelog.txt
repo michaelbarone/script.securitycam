@@ -1,3 +1,6 @@
+v1.4.1
+- Added missing dependency and adapted xbmc.python version for Leia in addon.xml. 
+
 v1.4.0
 - Added capability to capture snapshots from rtsp stream (requires ffmpeg)
 
