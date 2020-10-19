@@ -46,6 +46,10 @@ cameraUrl = None
 cameraName = None
 cameraUsername = None
 cameraPassword = None
+camera1 = None
+camera2 = None
+camera3 = None
+camera4 = None
 
 ffmpeg_exec = 'ffmpeg.exe' if platform.system() == 'Windows' else 'ffmpeg'
 
@@ -64,6 +68,14 @@ if len(sys.argv) > 1:
                 cameraUsername = str(sys.argv[i].split('=')[1])
             if sys.argv[i].split('=')[0] == 'cameraPassword':
                 cameraPassword = str(sys.argv[i].split('=')[1])
+            if sys.argv[i].split('=')[0] == 'camera1':
+                camera1 = str(sys.argv[i].split('=')[1])                
+            if sys.argv[i].split('=')[0] == 'camera2':
+                camera2 = str(sys.argv[i].split('=')[1])
+            if sys.argv[i].split('=')[0] == 'camera3':
+                camera3 = str(sys.argv[i].split('=')[1])
+            if sys.argv[i].split('=')[0] == 'camera4':
+                camera4 = str(sys.argv[i].split('=')[1])                 
                 # break here, or keep on searching for other arguments
         except:
             continue
@@ -78,6 +90,27 @@ elif cameraUrl != None and cameraName != None:
     urls[0] = cameraUrl
     usernames[0] = cameraUsername
     passwords[0] = cameraPassword
+elif camera1 != None:
+    if camera1 != None:
+        name[0] = None
+        urls[0] = camera1
+        usernames[0] = cameraUsername
+        passwords[0] = cameraPassword
+    if camera2 != None:
+        name[1] = None
+        urls[1] = camera2
+        usernames[1] = cameraUsername
+        passwords[1] = cameraPassword
+    if camera3 != None:
+        name[2] = None
+        urls[2] = camera3
+        usernames[2] = cameraUsername
+        passwords[2] = cameraPassword
+    if camera4 != None:
+        name[3] = None
+        urls[3] = camera4
+        usernames[3] = cameraUsername
+        passwords[3] = cameraPassword
 else:
     count = 0
     for i in range(MAXCAMS):
@@ -225,6 +258,8 @@ class CamPreviewDialog(xbmcgui.WindowDialog):
         # send notification
         if requestType == 'motion':
             xbmc.executebuiltin('Notification(Motion,' + str(self.cams[0]['name']) +','+ str(_duration) + ')')
+        elif requestType == 'display':
+            xbmc.executebuiltin('Notification(View Cameras,,'+ str(_duration) + ')')
 
         for i in range(MAXCAMS):
             if self.cams[i]['url']:
